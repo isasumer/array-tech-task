@@ -1,6 +1,14 @@
-export const addChart = (item) => {
+export const addItem = (item) => {
+  console.log(item);
   return {
-    type: "ADD_CHART",
+    type: "ADD_ITEM",
+    payload: item,
+  };
+};
+export const deleteItem = (item) => {
+  console.log(item);
+  return {
+    type: "DELETE_ITEM",
     payload: item,
   };
 };

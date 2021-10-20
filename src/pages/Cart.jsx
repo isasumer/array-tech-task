@@ -1,189 +1,116 @@
-import RemoveIcon from "@material-ui/icons/Remove";
-import AddIcon from "@material-ui/icons/Add";
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import mobile from "../components/Responsive";
-
+import { addItem } from "../actions/action";
+import { Input, Search } from "../components/Menu_Style";
+import { useState } from "react";
+import data from "../components/data";
 const Container = styled.div`
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  align-items: center;
   background-color: orange;
   margin: 0px;
   padding: 0px;
 `;
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+const Form = styled.form`
+  width: 60%;
+  border: 1px solid red;
 `;
 
 const Title = styled.h1`
   font-weight: 300;
   text-align: center;
 `;
-
-const Top = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  padding: 20px;
-  width: 80%;
+const Category = styled.div`
+  margin-bottom: 10px;
 `;
-
-const TopButton = styled.button`
-  border-radius: 10px;
-  padding: 10px;
-  font-weight: 600;
-  cursor: pointer;
-  border: ${(props) => props.type === "filled" && "none"};
-  background-color: ${(props) =>
-    props.type === "filled" ? "black" : "transparent"};
-  color: ${(props) => props.type === "filled" && "white"};
-  ${mobile({
-    padding: "6px",
-    fontWeight: "500",
-    margin: "3px",
-    border: "filled",
-    fontSize: "12px",
-  })}
+const Select = styled.select`
+  height: 50px;
+  width: 644px;
+  border: 1px solid blue;
+  font-size: 26px;
 `;
-
-const TopTexts = styled.div`
-  ${mobile({ display: "none" })}
-`;
-const TopText = styled.span`
-  text-decoration: underline;
-  cursor: pointer;
-  margin: 0px 10px;
-`;
-
-const Bottom = styled.div`
-  width: 70%;
-  display: flex;
-  ${mobile({ display: "flex", flexDirection: "column" })}
-`;
-
-const Product = styled.div`
-  display: flex;
-  padding: 5px;
-  margin: 5px;
-  border: 1px solid black;
-  border-radius: 10px;
-`;
-const Image = styled.img`
-  width: 120px;
-  height: 120px;
-  object-fit: cover;
-  border: 0.25rem solid black;
-  border-radius: 10px;
-`;
-
-const ProductName = styled.span`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-left: 20px;
-`;
-
-const ProductAmountContainer = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 5px;
-`;
-
-const ProductAmount = styled.div`
-  font-size: 24px;
-  margin: 5px;
-  ${mobile({ fontSize: "16px" })}
-`;
-
-const ProductPrice = styled.div`
-  font-size: 30px;
-  font-weight: 200;
-  ${mobile({ fontSize: "16px" })}
-`;
-const Total = styled.div`
-  margin: 20px 0 0 120px;
-  height: 40px;
-  font-size: 30px;
-  border: 1px solid black;
-
-  ${mobile({
-    paddingLeft: "15px",
-    backgroundColor: "#f0ee97",
-    margin: "10px 20px",
-    fontSize: "20px",
-    border: "1px solid black",
-    borderRadius: "10px",
-  })}
+const Option = styled.option`
+  height: 50px;
+  width: 644px;
+  font-size: 26px;
 `;
 
 const Cart = (props) => {
-  const reducer = (x, y) => x + y;
-  const totalPrice = props.cart.map((item) => item.price).reduce(reducer, 0);
-  console.log(totalPrice);
+  const [item, setItem] = useState({
+    id: "",
+    title: "",
+    category: "",
+    price: "",
+    img: "",
+    desc: "",
+  });
 
+  const submitHandler = (e) => {
+    e.preventDefault();
+    data.push(item);
+    console.log(data);
+  };
   return (
     <Container>
-      {console.log([new Set(props.cart)])}
       <Navbar />
-      <Wrapper>
-        <Title>YOUR CART</Title>
-        <Top>
-          <Link to="/">
-            <TopButton>CONTINUE SHOPPING</TopButton>
-          </Link>
-          <TopTexts>
-            <TopText>Shopping Bag({new Set(props.cart).size})</TopText>
-            <TopText>Your Wishlist (0)</TopText>
-          </TopTexts>
-          <TopButton type="filled">CHECKOUT NOW</TopButton>
-        </Top>
-        <Bottom>
-          <div>
-            {props.cart.map((item) => (
-              <Product key={item.key}>
-                <Image alt={item.title} src={item.img} />
-                <ProductName>
-                  <span>
-                    <b>Name:</b> {item.title}
-                  </span>
-                  <ProductAmountContainer>
-                    <RemoveIcon />
-                    <ProductAmount>1</ProductAmount>
-                    <AddIcon />
-                  </ProductAmountContainer>
-                  <ProductPrice>
-                    {"$"}
-                    {item.price}
-                  </ProductPrice>
-                </ProductName>
-              </Product>
-            ))}
-          </div>
-          <Total>
-            <b>Total Price:</b>
-            <span>
-              {" "}
-              {"$"}
-              {totalPrice}{" "}
-            </span>
-          </Total>
-        </Bottom>
-      </Wrapper>
+      <Title>ADD ITEM</Title>
+      <Form onSubmit={submitHandler}>
+        <Input
+          value={item.id}
+          type="number"
+          onChange={(e) => setItem({ ...item, id: e.target.value })}
+          placeholder="Please enter item ID"
+        />
+        <Input
+          value={item.title}
+          type="text"
+          onChange={(e) => setItem({ ...item, title: e.target.value })}
+          placeholder="Please enter item title"
+        />
+        <Input
+          value={item.price}
+          type="number"
+          onChange={(e) => setItem({ ...item, price: e.target.value })}
+          placeholder="Please enter item price"
+        />
+        <Input
+          value={item.img}
+          type="text"
+          onChange={(e) => setItem({ ...item, img: e.target.value })}
+          placeholder="Please enter item image URL"
+        />
+        <Input
+          value={item.desc}
+          type="text"
+          onChange={(e) => setItem({ ...item, desc: e.target.value })}
+          placeholder="Please enter item's description"
+        />
+
+        <br />
+        <Category>
+          <Select
+            id="category"
+            onChange={(e) => setItem({ ...item, category: e.target.value })}
+          >
+            <Option value="">Please Select Category</Option>
+            <Option value="China">China</Option>
+            <Option value="Korea">Korea</Option>
+            <Option value="Japan">Japan</Option>
+          </Select>
+        </Category>
+        <Search type="submit">Add Item</Search>
+      </Form>
     </Container>
   );
 };
 
 const mapStateToProps = (state) => {
   return {
-    cart: state.cart,
+    menuList: state.menuList,
   };
 };
 
-export default connect(mapStateToProps)(Cart);
+export default connect(mapStateToProps, { addItem })(Cart);

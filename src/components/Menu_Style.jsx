@@ -21,7 +21,6 @@ export const Image = styled.img`
   border-radius: 10px;
 `;
 export const Content = styled.div`
-  position: relative;
   padding-left: 10px;
 `;
 export const Title = styled.div`
@@ -46,6 +45,7 @@ export const Form = styled.form`
 export const Input = styled.input`
   height: 50px;
   width: 644px;
+  margin-bottom: 10px;
   border-radius: 8px;
   font-size: 26px;
   ${mobile({ height: "40px", width: "65%", fontSize: "18px" })};
@@ -66,9 +66,8 @@ export const Search = styled.button`
   ${mobile({ height: "40px", width: "20%", fontSize: "14px" })};
 `;
 export const Button = styled.button`
-  position: absolute;
-  top: 150px;
-  left: 55px;
+  margin: 25px 10px 0 0;
+  padding: 5px 10px;
   background-color: #f6fcabce;
   border-radius: 20px;
   height: 26px;

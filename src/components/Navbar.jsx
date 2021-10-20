@@ -51,13 +51,7 @@ const Navbar = (props) => {
           <MenuItem>Call Us</MenuItem>
           <MenuItem>Register</MenuItem>
           <MenuItem> Sign In </MenuItem>
-          <MenuItem>
-            <Link to="/cart">
-              <Badge badgeContent={new Set(props.cart).size} color="primary">
-                <ShoppingCartOutlined />
-              </Badge>
-            </Link>
-          </MenuItem>
+          <MenuItem></MenuItem>
         </Right>
       </Wrapper>
     </Container>

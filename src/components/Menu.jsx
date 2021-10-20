@@ -1,6 +1,8 @@
 import { useRef } from "react";
 import { connect } from "react-redux";
-import { addChart, search, categoryButton } from "../actions/action";
+import { Link } from "react-router-dom";
+import { deleteItem, addItem, search, categoryButton } from "../actions/action";
+import data from "./data";
 import {
   Container,
   Form,
@@ -17,11 +19,19 @@ import {
 } from "./Menu_Style";
 
 const Menu = (props) => {
+  console.log(props.menuList);
   const inputRef = useRef();
   const submitHandler = (e) => {
     e.preventDefault();
     props.search(inputRef.current.value);
   };
+  const spliceFunction = (item) => {
+    props.menuList.splice(
+      props.menuList.findIndex((i) => i.title === item.title),
+      1
+    );
+  };
+
   return (
     <Container>
       <Form onSubmit={submitHandler}>
@@ -31,6 +41,9 @@ const Menu = (props) => {
           placeholder="Please enter food's name"
         />
         <Search type="submit">Search</Search>
+        <Link to="/cart">
+          <Search>Add Item</Search>
+        </Link>
       </Form>
       {props.menuList.map((item) => {
         return (
@@ -44,10 +57,17 @@ const Menu = (props) => {
               <Desc>{item.desc}</Desc>
               <Button
                 onClick={() => {
-                  props.addChart(item);
+                  props.addItem(item);
                 }}
               >
-                Add to Cart
+                Update
+              </Button>
+              <Button
+                onClick={(item) => {
+                  spliceFunction(item);
+                }}
+              >
+                Delete
               </Button>
             </Content>
           </Wrapper>
@@ -64,6 +84,9 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-export default connect(mapStateToProps, { addChart, search, categoryButton })(
-  Menu
-);
+export default connect(mapStateToProps, {
+  deleteItem,
+  addItem,
+  search,
+  categoryButton,
+})(Menu);

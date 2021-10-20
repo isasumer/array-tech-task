@@ -8,10 +8,15 @@ const INITIAL_STATE = {
 
 const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case "ADD_CHART":
+    case "ADD_ITEM":
       return {
         ...state,
-        cart: [...state.cart, action.payload],
+        menuList: [...state.menuList, action.payload],
+      };
+    case "DELETE_ITEM":
+      return {
+        ...state,
+        menuList: data.splice(action.payload, 1),
       };
     case "SEARCH":
       return {
